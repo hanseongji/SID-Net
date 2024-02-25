@@ -69,8 +69,8 @@ list_loss = []
 list_Accuracy = []
 list_learningrate = []
 
-alpha = 8
-beta = 20
+alpha = 21
+beta = 35
 gamma = 0.00000001
 
 while 1:
@@ -109,17 +109,8 @@ while 1:
 
         loss_Dif = list_loss[i-1] - list_loss[i-2]
 
-        if Accuracy_before >= 0.85:
-            New_layer = 3
-            New_Neuron = 4
-
-        elif 0.5 < Accuracy_before < 0.85:
-            New_layer = 4
-            New_Neuron = 5
-
-        else:
-            New_layer = 6
-            New_Neuron = 7
+        New_layer = 3
+        New_Neuron = 4
 
         list_layer.append(New_layer)
         list_Neuron.append(New_Neuron)
@@ -142,26 +133,32 @@ while 1:
 
         loss_Dif = list_loss[i - 1] - list_loss[i - 2]
         if list_layer[i-1] - list_layer[i-2] != 0:
-            grad_layer_before = (list_loss[i - 2] - list_loss[i - 3]) / (list_layer[i - 2] - list_layer[i - 3])
+            if list_layer[i - 2] - list_layer[i - 3] != 0:
+                grad_layer_before = (list_loss[i - 2] - list_loss[i - 3]) / (list_layer[i - 2] - list_layer[i - 3])
+            else:
+                grad_layer_before = (list_loss[i - 2] - list_loss[i - 3])
             grad_layer_after = (list_loss[i - 1] - list_loss[i - 2]) / (list_layer[i - 1] - list_layer[i - 2])
-            grad_diff_layer = grad_layer_after/grad_layer_before
+            grad_diff_layer = grad_layer_after/ abs(grad_layer_before)
             d_layer = math.ceil(grad_diff_layer * alpha)
-            if d_layer >= 5:
-                d_layer = 5
-            if d_layer <= -5:
-                d_layer = -5
+            if d_layer >= 3:
+                d_layer = 3
+            if d_layer <= -3:
+                d_layer = -3
             New_layer = list_layer[i - 1] - d_layer
         else :
             New_layer = list_layer[i - 1] + 1
         if list_Neuron[i-1] - list_Neuron[i-2] != 0:
-            grad_Neuron_before = (list_loss[i - 2] - list_loss[i - 3]) / (list_Neuron[i - 2] - list_Neuron[i - 3])
+            if list_Neuron[i - 2] - list_Neuron[i - 3] != 0:
+                grad_Neuron_before = (list_loss[i - 2] - list_loss[i - 3]) / (list_Neuron[i - 2] - list_Neuron[i - 3])
+            else:
+                grad_Neuron_before = (list_loss[i - 2] - list_loss[i - 3])
             grad_Neuron_after = (list_loss[i - 1] - list_loss[i - 2]) / (list_Neuron[i - 1] - list_Neuron[i - 2])
-            grad_diff_Neuron = grad_Neuron_after/grad_Neuron_before
+            grad_diff_Neuron = grad_Neuron_after/ abs(grad_Neuron_before)
             d_Neuron = math.ceil(grad_diff_Neuron * beta)
-            if d_Neuron >= 10:
-                d_Neuron = 10
-            if d_Neuron <= -10:
-                d_Neuron = -10
+            if d_Neuron >= 5:
+                d_Neuron = 5
+            if d_Neuron <= -8:
+                d_Neuron = -8
             New_Neuron = list_Neuron[i - 1] - d_Neuron
         else :
             New_Neuron = list_Neuron[i - 1] + 1
