@@ -9,7 +9,7 @@ example_idx_=1
 dirSep = "/" if platform.system() == "Darwin" else "\\"
 curr_path = f"{os.getcwd()}{dirSep}Numerical_Problem{example_idx_}{dirSep}"
 
-model_path = f"{curr_path}DNN_Model.h5"
+model_path = f"{curr_path}DNN_Model_Ex1.h5"
 loss_Path = f"{curr_path}loss.csv"
 opt_res = f"{curr_path}opt_res.csv"
 
